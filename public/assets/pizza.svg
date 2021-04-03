@@ -6,8 +6,6 @@
   xmlns="http://www.w3.org/2000/svg"
 >
   <g id="pizza">
-    <circle id="crust" cx="50" cy="50" r="50" fill="#C59854" />
-    <circle id="cheese" cx="50" cy="50" r="45" fill="#FCF2BC" />
     <g id="ham">
       <path
         id="Rectangle 11"

@@ -1,9 +1,9 @@
 Todo:
-  ☐ import svgs
+  ✔ import svgs @done(21-04-03 12:05)
   ☐ size buttons
   ☐ toppings
   ☐ data store for order
   ☐ check box list for modify order
   
 Migrate:
-  ☐ move project into vite!
+  ✔ move project into vite! @done(21-04-03 12:05)

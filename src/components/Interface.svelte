@@ -35,14 +35,14 @@
     gsap.to('[data-size]', {
       duration: 0.5,
       scale: 0,
-      transformOrigin: 'center',
+      transformOrigin: 'center center',
       // stagger: { each: 0.33 },
     })
 
     gsap.to(toppings.children, { duration: 1, scale: 1 })
 
     Draggable.create(toppings.children, {
-      bounds: document.querySelector('[data-pizzaBox]'),
+      bounds: document.querySelector('.grid'),
 
       onDrag: function (e) {
         checkHit(this)
@@ -74,39 +74,36 @@
   }
 </script>
 
-<p>{pizzaOrder.toppings}</p>
+<p>{pizzaOrder.size}inch pizza with: {pizzaOrder.toppings}</p>
+
+<button on:click={addToppings}>Next</button>
+
 <div class="grid">
-  <svg data-pizzaBox fill="none" viewBox="0 0 360 640" xmlns="http://www.w3.org/2000/svg">
-    <path fill="#C4C4C4" d="M0 0h360v60H0z" />
-    <path fill="#C4C4C4" d="M0 455h360v185H0z" />
+  <!-- //todo remove from svg and make proper grid wrapper -->
 
-    <g data-next on:click={addToppings}>
-      <path fill="#D3FF77" d="M343 30.5a22.5 22.5 0 11-45 0 22.5 22.5 0 0145 0z" />
-      <path
-        fill="#000"
-        d="M306.55 28.5a2 2 0 100 4v-4zm28.41 3.41a2 2 0 000-2.82l-12.72-12.73a2 2 0 10-2.83 2.83l11.31 11.31-11.31 11.31a2 2 0 002.83 2.83l12.72-12.73zm-28.41.59h27v-4h-27v4z" />
-    </g>
+  <div data-pizzaBox>
+    <svg
+      bind:this={pizza}
+      width="100"
+      viewBox="0 0 100 100"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle id="crust" cx="50" cy="50" r="50" fill="#C59854" />
+      <circle id="cheese" cx="50" cy="50" r="45" fill="#FCF2BC" />
 
-    //todo remove from svg and make proper grid wrapper
-    <g bind:this={pizza}>
-      <circle cx="180" cy="251" r="75" fill="#C4C4C4" />
       {#each pizzaOrder.toppings as topping}
-        <svg
-          fill="none"
-          x="150"
-          y="200"
-          xmlns="http://www.w3.org/2000/svg"
-          data-pizza={topping}>
-          <use href={`./assets/pizza.svg#${topping}`} />
-        </svg>
+        <use data-pizza={topping} href={`./assets/pizza.svg#${topping}`} />
       {/each}
-    </g>
+    </svg>
+  </div>
 
-    //todo make a component, svg or just div it ?
+  <!-- //todo make a component, svg or just div it ? -->
+  <svg data-sizes>
     <g class="sizes" on:click={resizePizza}>
-      <circle data-size="12" cx="66" cy="552" r="30" />
-      <circle data-size="15" cx="158.5" cy="551.5" r="40" />
-      <circle data-size="20" cx="276" cy="547" r="50" />
+      <circle data-size="12" cx="30" cy="60" r="30" />
+      <circle data-size="15" cx="158.5" cy="60" r="40" />
+      <circle data-size="20" cx="276" cy="60" r="50" />
     </g>
   </svg>
 
@@ -123,20 +120,24 @@
 </div>
 
 <style type="text/scss">
+  p {
+    color: white;
+  }
   .grid {
-    max-height: 100vh;
+    min-height: 100vh;
     display: grid;
     grid-template-columns: 1fr minmax(360px, 500px) 1fr;
-    grid-template-rows: 1fr;
   }
 
   [data-pizzaBox] {
-    // max-height: 100vh;
+    max-height: 300px;
+    display: grid;
     grid-column: 2;
-    grid-row: 1 / span 2;
+    place-content: center;
   }
 
-  [data-toppings] {
+  [data-toppings],
+  [data-sizes] {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     // grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));

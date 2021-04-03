@@ -4,8 +4,6 @@
 
 <Interface />
 
-//! I WILL BRB 5min
-
 <style lang="scss">
   //< style more
 
