@@ -9,26 +9,26 @@
 
   let pizza
   let toppings
-  let tempSize = 0
-  let sizes = [12, 15, 20]
+  let size = 1
 
   $: pizzaOrder = {
-    size: 0,
+    size: 12,
     toppings: [],
   }
-
-  $: gsap.to(pizza, {
-    duration: 1,
-    scale: pizzaOrder.size / 10,
-    transformOrigin: 'center',
-  })
 
   function checkHit(obj) {
     return obj.hitTest(pizza, '70%')
   }
 
-  function onInput() {
-    pizzaOrder.size = sizes[tempSize]
+  function sizePizza(e) {
+    console.dir(e.target)
+    pizzaOrder.size = size === 1 ? 12 : size === 2 ? 15 : size === 3 ? 20 : 0
+
+    gsap.to(pizza, {
+      duration: 1,
+      scale: size,
+      transformOrigin: 'center',
+    })
   }
 
   function addToppings(e) {
@@ -98,11 +98,11 @@
   <div class="sizes">
     <input
       type="range"
-      min="0"
-      max="2"
+      min="1"
+      max="3"
       step="0"
-      on:input={onInput}
-      bind:value={tempSize}
+      on:change={sizePizza}
+      bind:value={size}
     />
   </div>
 
@@ -154,6 +154,10 @@
 
   .sizes {
     grid-area: slider;
+    align-self: center;
+    input {
+      width: 100%;
+    }
   }
 
   [data-toppings] {
