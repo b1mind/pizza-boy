@@ -26,7 +26,7 @@
 
     gsap.to(pizza, {
       duration: 1,
-      scale: size,
+      scale: size >= 2 ? size * 0.75 : 1,
       transformOrigin: 'center',
     })
   }
