@@ -1,7 +1,7 @@
 <script>
-  import { onMount } from 'svelte'
   import { gsap } from 'gsap'
   import { Draggable } from 'gsap/Draggable'
+  import { onMount } from 'svelte'
 
   import Toppings from './Toppings.svelte'
 
@@ -9,38 +9,29 @@
 
   let pizza
   let toppings
+  let tempSize = 0
+  let sizes = [12, 15, 20]
+
   $: pizzaOrder = {
     size: 0,
     toppings: [],
   }
 
-  onMount(() => {
-    gsap.set(toppings.children, { scale: 0 })
+  $: gsap.to(pizza, {
+    duration: 1,
+    scale: pizzaOrder.size / 10,
+    transformOrigin: 'center',
   })
 
   function checkHit(obj) {
     return obj.hitTest(pizza, '70%')
   }
 
-  function resizePizza(e) {
-    const size = e.target.dataset.size
-    const resize = size / 10
-    gsap.to(pizza, { duration: 1, scale: resize, transformOrigin: 'center' })
-    pizzaOrder.size = size
+  function onInput() {
+    pizzaOrder.size = sizes[tempSize]
   }
 
   function addToppings(e) {
-    if (pizzaOrder.size === 0) return
-
-    gsap.to('[data-size]', {
-      duration: 0.5,
-      scale: 0,
-      transformOrigin: 'center center',
-      // stagger: { each: 0.33 },
-    })
-
-    gsap.to(toppings.children, { duration: 1, scale: 1 })
-
     Draggable.create(toppings.children, {
       bounds: document.querySelector('.grid'),
 
@@ -72,13 +63,18 @@
 
     //todo: clean up event listeners?
   }
+
+  onMount(() => {
+    addToppings()
+  })
 </script>
 
-<p>{pizzaOrder.size}inch pizza with: {pizzaOrder.toppings}</p>
-
-<button on:click={addToppings}>Next</button>
-
 <div class="grid">
+  <div class="order">
+    <p>{pizzaOrder.size}inch pizza with: {pizzaOrder.toppings}</p>
+
+    <button on:click={addToppings}>Next</button>
+  </div>
   <!-- //todo remove from svg and make proper grid wrapper -->
 
   <div data-pizzaBox>
@@ -98,14 +94,17 @@
     </svg>
   </div>
 
-  <!-- //todo make a component, svg or just div it ? -->
-  <svg data-sizes>
-    <g class="sizes" on:click={resizePizza}>
-      <circle data-size="12" cx="30" cy="60" r="30" />
-      <circle data-size="15" cx="158.5" cy="60" r="40" />
-      <circle data-size="20" cx="276" cy="60" r="50" />
-    </g>
-  </svg>
+  <!-- //todo make a component, svg or just div it ? or make it a slider -->
+  <div class="sizes">
+    <input
+      type="range"
+      min="0"
+      max="2"
+      step="0"
+      on:input={onInput}
+      bind:value={tempSize}
+    />
+  </div>
 
   <div data-toppings bind:this={toppings}>
     <Toppings topping="ham" />
@@ -123,10 +122,26 @@
   p {
     color: white;
   }
+
+  .order {
+    display: flex;
+    justify-content: space-between;
+    grid-area: header;
+
+    button {
+      height: min-content;
+    }
+  }
+
   .grid {
     min-height: 100vh;
     display: grid;
     grid-template-columns: 1fr minmax(360px, 500px) 1fr;
+    grid-template-areas:
+      '. header . '
+      '. pizza .'
+      '. slider .'
+      '. toppings .';
   }
 
   [data-pizzaBox] {
@@ -134,41 +149,24 @@
     display: grid;
     grid-column: 2;
     place-content: center;
+    grid-area: pizza;
   }
 
-  [data-toppings],
-  [data-sizes] {
+  .sizes {
+    grid-area: slider;
+  }
+
+  [data-toppings] {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     // grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 1rem;
     grid-row: 2;
     grid-column: 2;
+    grid-area: toppings;
   }
 
   svg {
     overflow: visible;
-  }
-
-  .sizes {
-    fill: white;
-    stroke: black;
-    -webkit-tap-highlight-color: transparent;
-    cursor: pointer;
-
-    // &-text {
-    //   fill: black;
-    // }
-  }
-
-  [data-size] {
-    &:active,
-    &:hover {
-      fill: red;
-    }
-
-    &:focus {
-      fill: blue;
-    }
   }
 </style>
