@@ -71,16 +71,13 @@
 
 <div class="grid">
   <div class="order">
-    <p>{pizzaOrder.size}inch pizza with: {pizzaOrder.toppings}</p>
-
-    <button on:click={addToppings}>Next</button>
+    Order: {pizzaOrder.size}inch pizza with {pizzaOrder.toppings}
   </div>
-  <!-- //todo remove from svg and make proper grid wrapper -->
 
   <div data-pizzaBox>
     <svg
       bind:this={pizza}
-      width="100"
+      width="150"
       viewBox="0 0 100 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +91,6 @@
     </svg>
   </div>
 
-  <!-- //todo make a component, svg or just div it ? or make it a slider -->
   <div class="sizes">
     <input
       type="range"
@@ -119,18 +115,11 @@
 </div>
 
 <style type="text/scss">
-  p {
-    color: white;
-  }
-
   .order {
     display: flex;
     justify-content: space-between;
     grid-area: header;
-
-    button {
-      height: min-content;
-    }
+    color: white;
   }
 
   .grid {
@@ -150,6 +139,7 @@
     grid-column: 2;
     place-content: center;
     grid-area: pizza;
+    align-self: flex-start;
   }
 
   .sizes {
