@@ -66,6 +66,7 @@
 
   onMount(() => {
     addToppings()
+    window.scrollTo(0, 9999)
   })
 </script>
 
