@@ -134,16 +134,15 @@
     min-height: 100vh;
     display: grid;
     grid-template-columns: 1fr minmax(360px, 500px) 1fr;
-    grid-template-rows: 40px 1fr 4fr 2fr;
+    grid-template-rows: 40px 4fr 2fr 0.5fr;
     grid-template-areas:
       '. header .'
-      '. slider .'
       '. pizza .'
-      '. toppings .';
+      '. toppings .'
+      '. slider .';
   }
 
   [data-pizzaBox] {
-    max-height: 300px;
     display: grid;
     grid-column: 2;
     place-content: center;
