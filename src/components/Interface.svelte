@@ -2,6 +2,8 @@
   import { gsap } from 'gsap'
   import { Draggable } from 'gsap/Draggable'
   import { onMount } from 'svelte'
+  import { fade } from 'svelte/transition'
+  import { animate, scaleIn } from '../anime'
 
   import Toppings from './Toppings.svelte'
 
@@ -17,12 +19,12 @@
   }
 
   function checkHit(obj) {
-    return obj.hitTest(pizza, '70%')
+    return obj.hitTest(pizza, '80%')
   }
 
   function sizePizza(e) {
     console.dir(e.target)
-    pizzaOrder.size = size === 1 ? 12 : size === 2 ? 15 : size === 3 ? 20 : 0
+    pizzaOrder.size = size === 1 ? 12 : size === 2 ? 15 : size === 3 ? 20 : 12
 
     gsap.to(pizza, {
       duration: 1,
@@ -37,7 +39,7 @@
 
       onDrag: function (e) {
         checkHit(this)
-          ? gsap.to(pizza, { stroke: 'red' })
+          ? gsap.to(pizza, { stroke: 'green' })
           : gsap.to(pizza, { stroke: 'none' })
       },
 
@@ -46,14 +48,12 @@
           gsap.to(this.target, {
             duration: 0.25,
             scale: 0,
-            transformOrigin: 'center center',
+            transformOrigin: 'center',
           })
-
-          // make a function that checks what topping based on dataset value?
-          // clone the topping svg or just topping?
 
           const topping = this.target.dataset.topping
           pizzaOrder.toppings = [...pizzaOrder.toppings, topping]
+
           gsap.to(pizza, { stroke: 'none' })
         } else {
           gsap.to(this.target, { duration: 0.25, x: 0, y: 0 })
@@ -86,7 +86,12 @@
       <circle id="cheese" cx="50" cy="50" r="45" fill="#FCF2BC" />
 
       {#each pizzaOrder.toppings as topping}
-        <use data-pizza={topping} href={`./assets/pizza.svg#${topping}`} />
+        <use
+          use:scaleIn
+          class="stagger"
+          data-pizza={topping}
+          href={`./assets/pizza.svg#${topping}`}
+        />
       {/each}
     </svg>
   </div>
@@ -100,13 +105,18 @@
       on:change={sizePizza}
       bind:value={size}
     />
+    <div class="sizeLabels">
+      <b>12"</b>
+      <b>15"</b>
+      <b>20"</b>
+    </div>
   </div>
 
   <div data-toppings bind:this={toppings}>
     <Toppings topping="ham" />
     <Toppings topping="sausage" />
-    <Toppings topping="shrooms" />
     <Toppings topping="pepperonis" />
+    <Toppings topping="shrooms" />
     <Toppings topping="onion" />
     <Toppings topping="pepper" />
     <Toppings topping="tomato" />
@@ -116,8 +126,6 @@
 
 <style type="text/scss">
   .order {
-    display: flex;
-    justify-content: space-between;
     grid-area: header;
     color: white;
   }
@@ -127,7 +135,7 @@
     display: grid;
     grid-template-columns: 1fr minmax(360px, 500px) 1fr;
     grid-template-areas:
-      '. header . '
+      '. header .'
       '. pizza .'
       '. slider .'
       '. toppings .';
@@ -143,20 +151,34 @@
   }
 
   .sizes {
+    display: grid;
     grid-area: slider;
     align-self: center;
+    color: white;
+
     input {
-      width: 100%;
+      width: 95%;
+      justify-self: center;
+    }
+
+    .sizeLabels {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    b {
+      padding-left: 0.5rem;
+    }
+
+    b + b {
+      padding-left: 1rem;
     }
   }
 
   [data-toppings] {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    // grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 1rem;
-    grid-row: 2;
-    grid-column: 2;
     grid-area: toppings;
   }
 

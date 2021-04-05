@@ -7,7 +7,18 @@ export function animate(node, { type, ...args }) {
   return {
     newAnimate,
     destroy() {
-      console.log('do I need destroyed')
+      newAnimate.kill()
+    },
+  }
+}
+
+export function scaleIn(node) {
+  const tl = gsap.timeline()
+  tl.from(node, { scale: 0, transformOrigin: 'center' })
+  return {
+    tl,
+    destroy() {
+      tl.kill()
     },
   }
 }
