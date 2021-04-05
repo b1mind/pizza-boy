@@ -69,7 +69,7 @@
   })
 </script>
 
-<div class="grid">
+<main class="grid">
   <div class="order">
     Order: {pizzaOrder.size}inch pizza with {pizzaOrder.toppings}
   </div>
@@ -122,7 +122,7 @@
     <Toppings topping="tomato" />
     <Toppings topping="jalapeno" />
   </div>
-</div>
+</main>
 
 <style type="text/scss">
   .order {
@@ -154,7 +154,7 @@
   .sizes {
     display: grid;
     grid-area: slider;
-    align-self: flex-start;
+    align-self: center;
     color: white;
 
     input {
