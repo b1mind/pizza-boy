@@ -2,8 +2,7 @@
   import { gsap } from 'gsap'
   import { Draggable } from 'gsap/Draggable'
   import { onMount } from 'svelte'
-  import { fade } from 'svelte/transition'
-  import { animate, scaleIn } from '../anime'
+  import { scaleIn } from '../anime'
 
   import Toppings from './Toppings.svelte'
 
@@ -66,7 +65,6 @@
 
   onMount(() => {
     addToppings()
-    window.scrollTo(0, 9999)
   })
 </script>
 
@@ -132,10 +130,11 @@
   }
 
   .grid {
-    min-height: 100vh;
+    height: 100%;
+    max-height: 100vh;
     display: grid;
     grid-template-columns: 1fr minmax(360px, 500px) 1fr;
-    grid-template-rows: 40px 4fr 2fr 0.5fr;
+    grid-template-rows: 40px 4fr 2fr 1fr;
     grid-template-areas:
       '. header .'
       '. pizza .'
