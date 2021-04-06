@@ -38,7 +38,7 @@
 
   function addToppings(e) {
     Draggable.create(toppings.children, {
-      bounds: document.querySelector('.grid'),
+      bounds: document.querySelector('main'),
 
       onDrag: function (e) {
         checkHit(this)
@@ -72,7 +72,7 @@
   })
 </script>
 
-<main class="grid">
+<main>
   <div class="order">
     <!-- Order: {pizzaOrder.size}inch pizza with {pizzaOrder.toppings} -->
     <b> PizzaBoy </b>
@@ -82,6 +82,7 @@
 
   <div data-pizzaBox>
     <svg
+      class="pizza"
       bind:this={pizza}
       width="150"
       viewBox="0 0 100 100"
@@ -111,6 +112,7 @@
       on:change={sizePizza}
       bind:value={size}
     />
+
     <div class="sizeLabels">
       <b>12"</b>
       <b>15"</b>
@@ -123,28 +125,18 @@
     <Toppings topping="sausage" />
     <Toppings topping="pepperonis" />
     <Toppings topping="shrooms" />
-    <Toppings topping="onion" />
-    <Toppings topping="pepper" />
-    <Toppings topping="tomato" />
-    <Toppings topping="jalapeno" />
+    <Toppings topping="olives" />
+    <Toppings topping="peppers" />
+    <Toppings topping="onions" />
+    <Toppings topping="jalapinos" />
   </div>
 </main>
 
 <style type="text/scss">
-  .order {
-    display: flex;
-    justify-content: space-between;
-    grid-area: header;
-    color: white;
-
-    button {
-      height: min-content;
-    }
-  }
-
-  .grid {
+  main {
     height: 100%;
     max-height: 100vh;
+    padding: 0 0.5rem;
     display: grid;
     grid-template-columns: 1fr minmax(340px, 500px) 1fr;
     grid-template-rows: 0.5fr 4fr 2fr 1fr;
@@ -155,12 +147,29 @@
       '. slider .';
   }
 
+  .order {
+    display: flex;
+    justify-content: space-between;
+    align-self: center;
+    grid-area: header;
+    color: white;
+
+    button {
+      height: min-content;
+    }
+  }
+
   [data-pizzaBox] {
     display: grid;
     grid-column: 2;
     place-content: center;
     grid-area: pizza;
     align-self: center;
+
+    .pizza,
+    use {
+      transform-origin: center center;
+    }
   }
 
   .sizes {
