@@ -1,9 +1,13 @@
 Todo:
-  ✔ import svgs @done(21-04-03 12:05)
-  ☐ size buttons
-  ☐ toppings
+  ☐ better font quit making it last thing
+  ☐ style confirm order button
+  ☐ cancel topping by clicking its old position
   ☐ data store for order
-  ☐ check box list for modify order
-  
-Migrate:
-  ✔ move project into vite! @done(21-04-03 12:05)
+  ☐ confirm overlay (use detail summary?)
+
+Archive:
+  ✔ toppings @done(21-04-06 00:38) @project(Todo)
+  ✔ import svgs @done(21-04-03 12:05) @project(Todo)
+  ✘ size buttons @cancelled(21-04-06 00:37) @project(Todo)
+  ✘ check box list for modify order @cancelled(21-04-06 00:37) @project(Todo)
+  ✔ move project into vite! @done(21-04-03 12:05) @project(Migrate)
