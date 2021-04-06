@@ -15,14 +15,18 @@
   $: pizzaOrder = {
     size: 12,
     toppings: [],
+    get price() {
+      return (this.size + this.toppings.length * 0.75).toFixed(2)
+    },
   }
+
+  // $: pizzaPrice = pizzaOrder.size + pizzaOrder.toppings.length * 0.75
 
   function checkHit(obj) {
     return obj.hitTest(pizza, '80%')
   }
 
   function sizePizza(e) {
-    console.dir(e.target)
     pizzaOrder.size = size === 1 ? 12 : size === 2 ? 15 : size === 3 ? 20 : 12
 
     gsap.to(pizza, {
@@ -70,7 +74,10 @@
 
 <main class="grid">
   <div class="order">
-    Order: {pizzaOrder.size}inch pizza with {pizzaOrder.toppings}
+    <!-- Order: {pizzaOrder.size}inch pizza with {pizzaOrder.toppings} -->
+    <b> PizzaBoy </b>
+    <b> Order Total: ${pizzaOrder.price} </b>
+    <button>Confirm</button>
   </div>
 
   <div data-pizzaBox>
@@ -125,16 +132,22 @@
 
 <style type="text/scss">
   .order {
+    display: flex;
+    justify-content: space-between;
     grid-area: header;
     color: white;
+
+    button {
+      height: min-content;
+    }
   }
 
   .grid {
     height: 100%;
     max-height: 100vh;
     display: grid;
-    grid-template-columns: 1fr minmax(360px, 500px) 1fr;
-    grid-template-rows: 40px 4fr 2fr 1fr;
+    grid-template-columns: 1fr minmax(340px, 500px) 1fr;
+    grid-template-rows: 0.5fr 4fr 2fr 1fr;
     grid-template-areas:
       '. header .'
       '. pizza .'
@@ -151,6 +164,7 @@
   }
 
   .sizes {
+    padding: 1rem;
     display: grid;
     grid-area: slider;
     align-self: center;
@@ -159,11 +173,13 @@
     input {
       width: 95%;
       justify-self: center;
+      cursor: pointer;
     }
 
     .sizeLabels {
       display: flex;
       justify-content: space-between;
+      user-select: none;
     }
 
     b {
