@@ -20,11 +20,7 @@
     },
   }
 
-  function checkHit(obj) {
-    return obj.hitTest(pizza, '70%')
-  }
-
-  function sizePizza(e) {
+  function sizePizza() {
     pizzaOrder.size = size === 1 ? 12 : size === 2 ? 15 : size === 3 ? 20 : 12
 
     gsap.to(pizza, {
@@ -39,12 +35,15 @@
   }
 
   function removeTopping(obj) {
-    console.dir(obj)
-    console.log('remove')
     const topping = obj.target.dataset.topping
     pizzaOrder.toppings = pizzaOrder.toppings.filter(t => t !== topping)
+
     const tl = gsap.timeline().to(obj.target, { opacity: 1 })
     obj.target.dataset.remove = false
+  }
+
+  function checkHit(obj) {
+    return obj.hitTest(pizza, '70%')
   }
 
   function addToppings(e) {
@@ -71,12 +70,14 @@
               opacity: 0,
               transformOrigin: 'center',
             })
+
             .to(this.target, { duration: 0.1, x: 0, y: 0 })
             .to('#cheese, #crust', { duration: 0.35, stroke: 'none' }, '<')
             .to(this.target, { duration: 0.25, scale: 1, opacity: 0.25 })
 
           const topping = this.target.dataset.topping
           pizzaOrder.toppings = [...pizzaOrder.toppings, topping]
+
           this.target.dataset.remove = true
         } else {
           gsap.to(this.target, { duration: 0.25, x: 0, y: 0 })
@@ -86,7 +87,8 @@
 
     return {
       destroy() {
-        console.log('destroy me')
+        //? check if this is right way to destroy?
+        this.kill()
       },
     }
   }
@@ -101,7 +103,20 @@
     <b> PizzaBoy </b>
     <b> Cost: ${pizzaOrder.price} </b>
 
-    <button>Confirm</button>
+    <details>
+      <summary>Confirm</summary>
+      <details-menu>
+        <b>Size: {pizzaOrder.size} inch</b>
+        <ul>
+          <li>cheese</li>
+          {#each pizzaOrder.toppings as topping}
+            <li>{topping}</li>
+          {/each}
+        </ul>
+        <b> Cost: ${pizzaOrder.price} </b>
+        <button>Order Now</button>
+      </details-menu>
+    </details>
   </div>
 
   <div data-pizzaBox>
@@ -185,8 +200,24 @@
     grid-area: header;
     color: white;
 
-    button {
-      height: min-content;
+    details {
+      z-index: 420;
+    }
+
+    summary {
+      z-index: 420;
+    }
+
+    details-menu {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-content: center;
+      background-color: #1b1b1b;
+      z-index: -1;
     }
   }
 
@@ -235,5 +266,6 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 1rem;
     grid-area: toppings;
+    z-index: 0;
   }
 </style>
