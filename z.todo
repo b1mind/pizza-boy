@@ -2,12 +2,14 @@ Todo:
   ☐ better font quit making it last thing
   ☐ style confirm order button
   ☐ style cancel topping better visual que
+  ☐ style slider/lables
   ✔ cancel topping by clicking its old position @done(21-04-08 12:00)
-  ☐ data store for order
   ☐ confirm overlay (use detail summary?)
+  ☐ better svg mushroom, sausage, ham
 
 Wishlist:
   ☐ clone toppings into the pizza with use
+  ☐ data store for order
 
 
 Archive:
