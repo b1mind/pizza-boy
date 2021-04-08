@@ -20,10 +20,8 @@
     },
   }
 
-  // $: pizzaPrice = pizzaOrder.size + pizzaOrder.toppings.length * 0.75
-
   function checkHit(obj) {
-    return obj.hitTest(pizza, '80%')
+    return obj.hitTest(pizza, '70%')
   }
 
   function sizePizza(e) {
@@ -36,35 +34,61 @@
     })
   }
 
+  function checkRemove(obj) {
+    return obj.target.dataset.remove === 'true' ? true : false
+  }
+
+  function removeTopping(obj) {
+    console.dir(obj)
+    console.log('remove')
+    const topping = obj.target.dataset.topping
+    pizzaOrder.toppings = pizzaOrder.toppings.filter(t => t !== topping)
+    const tl = gsap.timeline().to(obj.target, { opacity: 1 })
+    obj.target.dataset.remove = false
+  }
+
   function addToppings(e) {
     Draggable.create(toppings.children, {
       bounds: document.querySelector('main'),
 
+      onPress: function (e) {
+        checkRemove(this) ? removeTopping(this) : false
+      },
+
       onDrag: function (e) {
         checkHit(this)
-          ? gsap.to(pizza, { stroke: 'green' })
-          : gsap.to(pizza, { stroke: 'none' })
+          ? gsap.to('#cheese, #crust', { stroke: 'green' })
+          : gsap.to('#cheese, #crust', { stroke: 'none' })
       },
 
       onDragEnd: function (e) {
         if (checkHit(this)) {
-          gsap.to(this.target, {
-            duration: 0.25,
-            scale: 0,
-            transformOrigin: 'center',
-          })
+          const tl = gsap
+            .timeline()
+            .to(this.target, {
+              duration: 0.25,
+              scale: 0,
+              opacity: 0,
+              transformOrigin: 'center',
+            })
+            .to(this.target, { duration: 0.1, x: 0, y: 0 })
+            .to('#cheese, #crust', { duration: 0.35, stroke: 'none' }, '<')
+            .to(this.target, { duration: 0.25, scale: 1, opacity: 0.25 })
 
           const topping = this.target.dataset.topping
           pizzaOrder.toppings = [...pizzaOrder.toppings, topping]
-
-          gsap.to(pizza, { stroke: 'none' })
+          this.target.dataset.remove = true
         } else {
           gsap.to(this.target, { duration: 0.25, x: 0, y: 0 })
         }
       },
     })
 
-    //todo: clean up event listeners?
+    return {
+      destroy() {
+        console.log('destroy me')
+      },
+    }
   }
 
   onMount(() => {
@@ -74,28 +98,28 @@
 
 <main>
   <div class="order">
-    <!-- Order: {pizzaOrder.size}inch pizza with {pizzaOrder.toppings} -->
     <b> PizzaBoy </b>
-    <b> Order Total: ${pizzaOrder.price} </b>
+    <b> Cost: ${pizzaOrder.price} </b>
+
     <button>Confirm</button>
   </div>
 
   <div data-pizzaBox>
     <svg
       class="pizza"
-      bind:this={pizza}
       width="150"
       viewBox="0 0 100 100"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      bind:this={pizza}
     >
       <circle id="crust" cx="50" cy="50" r="50" fill="#C59854" />
       <circle id="cheese" cx="50" cy="50" r="45" fill="#FCF2BC" />
 
       {#each pizzaOrder.toppings as topping}
+        <!-- //todo animation for in/out:action to scaleIn/Out replace use: -->
+
         <use
           use:scaleIn
-          class="stagger"
           data-pizza={topping}
           href={`./assets/pizza.svg#${topping}`}
         />
@@ -104,14 +128,17 @@
   </div>
 
   <div class="sizes">
-    <input
-      type="range"
-      min="1"
-      max="3"
-      step="0"
-      on:change={sizePizza}
-      bind:value={size}
-    />
+    <label for="sizeSlider">
+      <input
+        name="sizeSlider"
+        type="range"
+        min="1"
+        max="3"
+        step="0"
+        on:change={sizePizza}
+        bind:value={size}
+      />
+    </label>
 
     <div class="sizeLabels">
       <b>12"</b>
@@ -133,13 +160,17 @@
 </main>
 
 <style type="text/scss">
+  svg {
+    overflow: visible;
+  }
+
   main {
     height: 100%;
     max-height: 100vh;
     padding: 0 0.5rem;
     display: grid;
     grid-template-columns: 1fr minmax(340px, 500px) 1fr;
-    grid-template-rows: 0.5fr 4fr 2fr 1fr;
+    grid-template-rows: 0.5fr 4.5fr 2fr 1fr;
     grid-template-areas:
       '. header .'
       '. pizza .'
@@ -166,7 +197,6 @@
     grid-area: pizza;
     align-self: center;
 
-    .pizza,
     use {
       transform-origin: center center;
     }
@@ -205,9 +235,5 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 1rem;
     grid-area: toppings;
-  }
-
-  svg {
-    overflow: visible;
   }
 </style>
