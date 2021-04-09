@@ -1,18 +1,20 @@
 Todo:
   ☐ better font quit making it last thing
+  ☐ better svg mushroom, sausage, ham
   ☐ style confirm order button
   ☐ style cancel topping better visual que
   ☐ style slider/lables
-  ✔ cancel topping by clicking its old position @done(21-04-08 12:00)
-  ☐ confirm overlay (use detail summary?)
-  ☐ better svg mushroom, sausage, ham
+  ☐ style confirm button and window (make component?)
 
 Wishlist:
   ☐ clone toppings into the pizza with use
   ☐ data store for order
-
+  ☐ save favorite orders
+  ☐ full order form
 
 Archive:
+  ✔ cancel topping by clicking its old position @done(21-04-08 12:00) @project(Todo)
+  ✔ confirm overlay (use detail summary?) @done(21-04-08 16:11) @project(Todo)
   ✔ toppings @done(21-04-06 00:38) @project(Todo)
   ✔ import svgs @done(21-04-03 12:05) @project(Todo)
   ✘ size buttons @cancelled(21-04-06 00:37) @project(Todo)
