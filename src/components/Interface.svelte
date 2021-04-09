@@ -25,7 +25,7 @@
 
     gsap.to(pizza, {
       duration: 1,
-      scale: size >= 2 ? size * 0.75 : 1,
+      scale: size >= 2 ? size * 0.6 : 1,
       transformOrigin: 'center',
     })
   }
@@ -50,17 +50,17 @@
     Draggable.create(toppings.children, {
       bounds: document.querySelector('main'),
 
-      onPress: function (e) {
+      onPress: function () {
         checkRemove(this) ? removeTopping(this) : false
       },
 
-      onDrag: function (e) {
+      onDrag: function () {
         checkHit(this)
           ? gsap.to('#cheese, #crust', { stroke: 'green' })
           : gsap.to('#cheese, #crust', { stroke: 'none' })
       },
 
-      onDragEnd: function (e) {
+      onDragEnd: function () {
         if (checkHit(this)) {
           const tl = gsap
             .timeline()
@@ -105,16 +105,19 @@
 
     <details>
       <summary>Confirm</summary>
+
       <details-menu>
-        <b>Size: {pizzaOrder.size} inch</b>
-        <ul>
-          <li>cheese</li>
-          {#each pizzaOrder.toppings as topping}
-            <li>{topping}</li>
-          {/each}
-        </ul>
-        <b> Cost: ${pizzaOrder.price} </b>
-        <button>Order Now</button>
+        <div class="order-summary">
+          <b>{pizzaOrder.size} inch pizza with</b>
+          <ul>
+            <li>cheese</li>
+            {#each pizzaOrder.toppings as topping}
+              <li>{topping}</li>
+            {/each}
+          </ul>
+          <b>Total: ${pizzaOrder.price} </b>
+          <button>Order Now</button>
+        </div>
       </details-menu>
     </details>
   </div>
@@ -185,7 +188,7 @@
     padding: 0 0.5rem;
     display: grid;
     grid-template-columns: 1fr minmax(340px, 500px) 1fr;
-    grid-template-rows: 0.5fr 4.5fr 2fr 1fr;
+    grid-template-rows: 0.5fr 4fr 2fr 1fr;
     grid-template-areas:
       '. header .'
       '. pizza .'
@@ -201,7 +204,7 @@
     color: white;
 
     details {
-      z-index: 420;
+      z-index: 69;
     }
 
     summary {
@@ -216,9 +219,19 @@
       height: 100%;
       display: grid;
       place-content: center;
-      background-color: #1b1b1b;
+      background-color: #000000c4;
       z-index: -1;
     }
+  }
+
+  .order-summary {
+    width: 250px;
+    padding: 1rem;
+    display: grid;
+    background-color: #1b1b1b;
+    border: 1px solid #1e1e1e;
+    border-radius: 10px;
+    // box-shadow: 1rem 1rem 1rem #121212;
   }
 
   [data-pizzaBox] {
@@ -240,24 +253,18 @@
     align-self: center;
     color: white;
 
-    input {
+    input,
+    label {
       width: 95%;
       justify-self: center;
       cursor: pointer;
     }
 
     .sizeLabels {
+      padding: 0 0.5rem;
       display: flex;
       justify-content: space-between;
       user-select: none;
-    }
-
-    b {
-      padding-left: 0.5rem;
-    }
-
-    b + b {
-      padding-left: 1rem;
     }
   }
 
