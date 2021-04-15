@@ -287,103 +287,91 @@
 
   //- styles from range.css (better than styling my self? idk...)
   //Todo: convert to scss and clean up styles
-  input[type='range'].slider {
+  input[type='range'] {
     width: 100%;
-    margin: -6.3px 0;
     background-color: transparent;
     -webkit-appearance: none;
   }
-
-  input[type='range'].slider:focus {
+  input[type='range']:focus {
     outline: none;
   }
-
-  input[type='range'].slider::-webkit-slider-runnable-track {
-    background: #4d4d4d;
+  input[type='range']::-webkit-slider-runnable-track {
+    background: #46262c;
     border: 0;
-    border-radius: 5px;
+    border-radius: 18.5px;
     width: 100%;
-    height: 15.6px;
+    height: 24.5px;
     cursor: pointer;
   }
-
-  input[type='range'].slider::-webkit-slider-thumb {
-    margin-top: -6.3px;
-    width: 30px;
-    height: 30px;
-    background: rgba(255, 67, 95, 0.93);
-    border: 0;
-    border-radius: 6px;
+  input[type='range']::-webkit-slider-thumb {
+    margin-top: 0px;
+    width: 34px;
+    height: 25px;
+    background: rgba(255, 55, 56, 0.93);
+    border: 2.9px solid #941e00;
+    border-radius: 28px;
     cursor: pointer;
     -webkit-appearance: none;
   }
-
-  input[type='range'].slider:focus::-webkit-slider-runnable-track {
-    background: #555555;
+  input[type='range']:focus::-webkit-slider-runnable-track {
+    background: #572f36;
   }
-
-  input[type='range'].slider::-moz-range-track {
-    background: #4d4d4d;
+  input[type='range']::-moz-range-track {
+    background: #46262c;
     border: 0;
-    border-radius: 5px;
+    border-radius: 18.5px;
     width: 100%;
-    height: 15.6px;
+    height: 24.5px;
     cursor: pointer;
   }
-
-  input[type='range'].slider::-moz-range-thumb {
-    width: 30px;
-    height: 30px;
-    background: rgba(255, 67, 95, 0.93);
-    border: 0;
-    border-radius: 6px;
+  input[type='range']::-moz-range-thumb {
+    width: 34px;
+    height: 25px;
+    background: rgba(255, 55, 56, 0.93);
+    border: 2.9px solid #941e00;
+    border-radius: 28px;
     cursor: pointer;
   }
-
-  input[type='range'].slider::-ms-track {
+  input[type='range']::-ms-track {
     background: transparent;
     border-color: transparent;
     border-width: 0 0;
     color: transparent;
     width: 100%;
-    height: 15.6px;
+    height: 24.5px;
     cursor: pointer;
   }
-
-  input[type='range'].slider::-ms-fill-lower {
-    background: #454545;
+  input[type='range']::-ms-fill-lower {
+    background: #351d22;
     border: 0;
-    border-radius: 10px;
+    border-radius: 37px;
   }
-
-  input[type='range'].slider::-ms-fill-upper {
-    background: #4d4d4d;
+  input[type='range']::-ms-fill-upper {
+    background: #46262c;
     border: 0;
-    border-radius: 10px;
+    border-radius: 37px;
   }
-
-  input[type='range'].slider::-ms-thumb {
-    width: 30px;
-    height: 30px;
-    background: rgba(255, 67, 95, 0.93);
-    border: 0;
-    border-radius: 6px;
+  input[type='range']::-ms-thumb {
+    width: 34px;
+    height: 25px;
+    background: rgba(255, 55, 56, 0.93);
+    border: 2.9px solid #941e00;
+    border-radius: 28px;
     cursor: pointer;
     margin-top: 0px;
     /*Needed to keep the Edge thumb centred*/
   }
-
-  input[type='range'].slider:focus::-ms-fill-lower {
-    background: #4d4d4d;
+  input[type='range']:focus::-ms-fill-lower {
+    background: #46262c;
   }
-
-  input[type='range'].slider:focus::-ms-fill-upper {
-    background: #555555;
+  input[type='range']:focus::-ms-fill-upper {
+    background: #572f36;
   }
-
+  /*TODO: Use one of the selectors from https://stackoverflow.com/a/20541859/7077589 and figure out
+how to remove the virtical space around the range input in IE*/
   @supports (-ms-ime-align: auto) {
     /* Pre-Chromium Edge only styles, selector taken from hhttps://stackoverflow.com/a/32202953/7077589 */
-    input[type='range'].slider {
+    input[type='range'] {
       margin: 0;
       /*Edge starts the margin from the thumb, not the track as other browsers do*/
     }
