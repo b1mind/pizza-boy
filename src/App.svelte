@@ -153,9 +153,21 @@
     </svg>
   </div>
 
+  <div data-toppings bind:this={toppings}>
+    <Toppings topping="ham" />
+    <Toppings topping="sausage" />
+    <Toppings topping="pepperonis" />
+    <Toppings topping="shrooms" />
+    <Toppings topping="olives" />
+    <Toppings topping="peppers" />
+    <Toppings topping="onions" />
+    <Toppings topping="jalapinos" />
+  </div>
+
   <div class="sizes">
     <label for="sizeSlider">
       <input
+        class="slider"
         name="sizeSlider"
         type="range"
         min="1"
@@ -171,17 +183,6 @@
       <b>15"</b>
       <b>20"</b>
     </div>
-  </div>
-
-  <div data-toppings bind:this={toppings}>
-    <Toppings topping="ham" />
-    <Toppings topping="sausage" />
-    <Toppings topping="pepperonis" />
-    <Toppings topping="shrooms" />
-    <Toppings topping="olives" />
-    <Toppings topping="peppers" />
-    <Toppings topping="onions" />
-    <Toppings topping="jalapinos" />
   </div>
 </main>
 
@@ -254,8 +255,16 @@
     }
   }
 
+  [data-toppings] {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+    grid-area: toppings;
+    z-index: 0;
+  }
+
   .sizes {
-    padding: 1rem;
+    padding: 1rem 1rem 0 1rem;
     display: grid;
     grid-area: slider;
     align-self: center;
@@ -269,18 +278,114 @@
     }
 
     .sizeLabels {
-      padding: 0 0.5rem;
+      padding: 0.5rem 0.5rem 0 0.5rem;
       display: flex;
       justify-content: space-between;
       user-select: none;
     }
   }
 
-  [data-toppings] {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 1rem;
-    grid-area: toppings;
-    z-index: 0;
+  //- styles from range.css (better than styling my self? idk...)
+  //Todo: convert to scss and clean up styles
+  input[type='range'].slider {
+    width: 100%;
+    margin: -6.3px 0;
+    background-color: transparent;
+    -webkit-appearance: none;
+  }
+
+  input[type='range'].slider:focus {
+    outline: none;
+  }
+
+  input[type='range'].slider::-webkit-slider-runnable-track {
+    background: #4d4d4d;
+    border: 0;
+    border-radius: 5px;
+    width: 100%;
+    height: 15.6px;
+    cursor: pointer;
+  }
+
+  input[type='range'].slider::-webkit-slider-thumb {
+    margin-top: -6.3px;
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 67, 95, 0.93);
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    -webkit-appearance: none;
+  }
+
+  input[type='range'].slider:focus::-webkit-slider-runnable-track {
+    background: #555555;
+  }
+
+  input[type='range'].slider::-moz-range-track {
+    background: #4d4d4d;
+    border: 0;
+    border-radius: 5px;
+    width: 100%;
+    height: 15.6px;
+    cursor: pointer;
+  }
+
+  input[type='range'].slider::-moz-range-thumb {
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 67, 95, 0.93);
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  input[type='range'].slider::-ms-track {
+    background: transparent;
+    border-color: transparent;
+    border-width: 0 0;
+    color: transparent;
+    width: 100%;
+    height: 15.6px;
+    cursor: pointer;
+  }
+
+  input[type='range'].slider::-ms-fill-lower {
+    background: #454545;
+    border: 0;
+    border-radius: 10px;
+  }
+
+  input[type='range'].slider::-ms-fill-upper {
+    background: #4d4d4d;
+    border: 0;
+    border-radius: 10px;
+  }
+
+  input[type='range'].slider::-ms-thumb {
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 67, 95, 0.93);
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 0px;
+    /*Needed to keep the Edge thumb centred*/
+  }
+
+  input[type='range'].slider:focus::-ms-fill-lower {
+    background: #4d4d4d;
+  }
+
+  input[type='range'].slider:focus::-ms-fill-upper {
+    background: #555555;
+  }
+
+  @supports (-ms-ime-align: auto) {
+    /* Pre-Chromium Edge only styles, selector taken from hhttps://stackoverflow.com/a/32202953/7077589 */
+    input[type='range'].slider {
+      margin: 0;
+      /*Edge starts the margin from the thumb, not the track as other browsers do*/
+    }
   }
 </style>
