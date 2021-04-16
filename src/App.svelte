@@ -46,7 +46,7 @@
     return obj.hitTest(pizza, '70%')
   }
 
-  function handleDragEnd(obj) {
+  function handleRelease(obj) {
     const tl = gsap
       .timeline()
       .to(obj.target, {
@@ -84,7 +84,7 @@
 
       onRelease: function () {
         if (checkHit(this)) {
-          handleDragEnd(this)
+          handleRelease(this)
         } else {
           gsap.to(this.target, { duration: 0.25, x: 0, y: 0, scale: 1 })
         }
