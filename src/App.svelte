@@ -73,6 +73,7 @@
 
       onPress: function () {
         checkRemove(this) ? removeTopping(this) : false
+        gsap.to(this.target, { duration: 0.1, scale: 1.1 })
       },
 
       onDrag: function () {
@@ -81,11 +82,11 @@
           : gsap.to('#cheese, #crust', { stroke: 'none' })
       },
 
-      onDragEnd: function () {
+      onRelease: function () {
         if (checkHit(this)) {
           handleDragEnd(this)
         } else {
-          gsap.to(this.target, { duration: 0.25, x: 0, y: 0 })
+          gsap.to(this.target, { duration: 0.25, x: 0, y: 0, scale: 1 })
         }
       },
     })
@@ -270,27 +271,26 @@
     align-self: center;
     color: white;
 
-    input,
-    label {
-      width: 95%;
-      justify-self: center;
-      cursor: pointer;
-    }
-
     .sizeLabels {
       padding: 0.5rem 0.5rem 0 0.5rem;
       display: flex;
       justify-content: space-between;
       user-select: none;
     }
+
+    & > * {
+      -webkit-appearance: none;
+    }
   }
 
   //- styles from range.css (better than styling my self? idk...)
   //Todo: convert to scss and clean up styles
   input[type='range'] {
-    width: 100%;
+    width: 98%;
     background-color: transparent;
     -webkit-appearance: none;
+    justify-self: flex-start;
+    cursor: pointer;
   }
   input[type='range']:focus {
     outline: none;
