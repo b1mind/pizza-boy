@@ -86,7 +86,13 @@
         if (checkHit(this)) {
           handleRelease(this)
         } else {
-          gsap.to(this.target, { duration: 0.25, x: 0, y: 0, scale: 1 })
+          gsap.to(this.target, {
+            duration: 0.25,
+            x: 0,
+            y: 0,
+            scale: 1,
+            ease: 'back',
+          })
         }
       },
     })
@@ -367,8 +373,6 @@
   input[type='range']:focus::-ms-fill-upper {
     background: #572f36;
   }
-  /*TODO: Use one of the selectors from https://stackoverflow.com/a/20541859/7077589 and figure out
-how to remove the virtical space around the range input in IE*/
   @supports (-ms-ime-align: auto) {
     /* Pre-Chromium Edge only styles, selector taken from hhttps://stackoverflow.com/a/32202953/7077589 */
     input[type='range'] {
