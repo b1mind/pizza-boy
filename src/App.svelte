@@ -26,7 +26,7 @@
     gsap.to(pizza, {
       duration: 1,
       scale: size >= 2 ? size * 0.6 : 1,
-      transformOrigin: 'center',
+      transformOrigin: '50% 50%',
     })
   }
 
@@ -256,6 +256,11 @@
     place-content: center;
     grid-area: pizza;
     place-self: center;
+
+    .pizza {
+      // prevents line artifacts.
+      outline: 1px solid transparent;
+    }
 
     use {
       transform-origin: center center;
