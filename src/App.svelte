@@ -27,6 +27,7 @@
       duration: 1,
       scale: size >= 2 ? size * 0.6 : 1,
       transformOrigin: '50% 50%',
+      force3D: false,
     })
   }
 
@@ -138,25 +139,20 @@
   </div>
 
   <div data-pizzaBox>
-    <svg
-      class="pizza"
-      width="155"
-      viewBox="0 0 100 100"
-      fill="none"
-      bind:this={pizza}
-    >
-      <circle id="crust" cx="50" cy="50" r="50" fill="#C59854" />
-      <circle id="cheese" cx="50" cy="50" r="45" fill="#FCF2BC" />
+    <svg width="155" viewBox="0 0 100 100" fill="none">
+      <g class="pizza" bind:this={pizza}>
+        <circle id="crust" cx="50" cy="50" r="50" fill="#C59854" />
+        <circle id="cheese" cx="50" cy="50" r="45" fill="#FCF2BC" />
+        {#each pizzaOrder.toppings as topping}
+          <!-- //todo animation for in/out:action to scaleIn/Out replace use: -->
 
-      {#each pizzaOrder.toppings as topping}
-        <!-- //todo animation for in/out:action to scaleIn/Out replace use: -->
-
-        <use
-          use:scaleIn
-          data-pizza={topping}
-          href={`./assets/pizza.svg#${topping}`}
-        />
-      {/each}
+          <use
+            use:scaleIn
+            data-pizza={topping}
+            href={`./assets/pizza.svg#${topping}`}
+          />
+        {/each}
+      </g>
     </svg>
   </div>
 
@@ -252,18 +248,12 @@
 
   [data-pizzaBox] {
     display: grid;
-    grid-column: 2;
-    place-content: center;
     grid-area: pizza;
     place-self: center;
 
     .pizza {
       // prevents line artifacts.
       outline: 1px solid transparent;
-    }
-
-    use {
-      transform-origin: center center;
     }
   }
 
