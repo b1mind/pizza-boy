@@ -12,9 +12,17 @@ export function animate(node, { type, ...args }) {
   }
 }
 
+const duration = 1
+
 export function scaleIn(node) {
   const tl = gsap.timeline()
-  tl.from(node, { scale: 0, transformOrigin: 'center' })
+  tl.from(node, {
+    duration: duration * 0.5,
+    scale: 0,
+    transformOrigin: '50% 50%',
+  })
+
+  //todo need to fix timing to match Svelte review forum post/repl
   return {
     tl,
     destroy() {

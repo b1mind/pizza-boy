@@ -10,6 +10,7 @@
 
   let pizza
   let toppings
+  let detailOpen
   let size = 1
 
   $: pizzaOrder = {
@@ -24,7 +25,7 @@
     pizzaOrder.size = size === 1 ? 12 : size === 2 ? 15 : size === 3 ? 20 : 12
 
     gsap.to(pizza, {
-      duration: 1,
+      duration: 0.75,
       scale: size >= 2 ? size * 0.6 : 1,
       transformOrigin: '50% 50%',
       force3D: false,
@@ -54,11 +55,11 @@
         duration: 0.25,
         scale: 0,
         opacity: 0,
-        transformOrigin: 'center',
+        transformOrigin: '50% 50%',
       })
 
       .to(obj.target, { duration: 0.1, x: 0, y: 0 })
-      .to('#cheese, #crust', { duration: 0.35, stroke: 'none' }, '<')
+      .set('#cheese, #crust', { stroke: 'none' }, '<')
       .to(obj.target, { duration: 0.25, scale: 1, opacity: 0.25 })
 
     const topping = obj.target.dataset.topping
@@ -79,8 +80,8 @@
 
       onDrag: function () {
         checkHit(this)
-          ? gsap.to('#cheese, #crust', { stroke: 'green' })
-          : gsap.to('#cheese, #crust', { stroke: 'none' })
+          ? gsap.set('#cheese, #crust', { stroke: 'green' })
+          : gsap.set('#cheese, #crust', { stroke: 'none' })
       },
 
       onRelease: function () {
@@ -107,18 +108,23 @@
   }
 
   onMount(() => {
+    detailOpen = detailOpen.open
+
     addToppings()
   })
 </script>
 
 <main>
   <!-- //todo make menu a component -->
+
   <div class="order">
-    <b> PizzaBoy </b>
+    <b> Pizza Boy </b>
     <b> Cost: ${pizzaOrder.price} </b>
 
-    <details>
-      <summary>Confirm</summary>
+    <details bind:this={detailOpen}>
+      <!-- //fixme check if details has open attr and change text to cancel -->
+
+      <summary>{detailOpen ? 'Cancel' : 'Confirm'}</summary>
 
       <details-menu>
         <div class="order-summary">
@@ -211,7 +217,7 @@
   .order {
     display: flex;
     justify-content: space-between;
-    align-self: center;
+    align-items: center;
     grid-area: header;
     color: white;
 
@@ -220,7 +226,12 @@
     }
 
     summary {
+      list-style: none;
       z-index: 420;
+
+      &::marker {
+        list-style: none;
+      }
     }
 
     details-menu {
@@ -236,14 +247,28 @@
     }
   }
 
+  button,
+  summary {
+    padding: 0.25rem 1rem;
+    color: white;
+    background-color: #941e00;
+    border: 0px solid transparent;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
   .order-summary {
     width: 250px;
     padding: 1rem;
     display: grid;
+    gap: 1rem;
     background-color: #1b1b1b;
     border: 1px solid #1e1e1e;
     border-radius: 10px;
-    // box-shadow: 1rem 1rem 1rem #121212;
+
+    ul {
+      margin: 0;
+    }
   }
 
   [data-pizzaBox] {
@@ -285,7 +310,7 @@
   }
 
   //- styles from range.css (better than styling my self? idk...)
-  //Todo: convert to scss and clean up styles
+  //todo: convert to scss and clean up styles and colors
   input[type='range'] {
     width: 98%;
     background-color: transparent;
