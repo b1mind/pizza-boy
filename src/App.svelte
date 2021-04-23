@@ -10,7 +10,7 @@
 
   let pizza
   let toppings
-  let detailOpen
+  let detailOpen = false
   let size = 1
 
   $: pizzaOrder = {
@@ -42,6 +42,7 @@
 
     const tl = gsap.timeline().to(obj.target, { opacity: 1 })
     obj.target.dataset.remove = false
+    return tl
   }
 
   function checkHit(obj) {
@@ -108,8 +109,6 @@
   }
 
   onMount(() => {
-    detailOpen = detailOpen.open
-
     addToppings()
   })
 </script>
@@ -118,17 +117,19 @@
   <!-- //todo make menu a component -->
 
   <div class="order">
-    <b> Pizza Boy </b>
+    <h1>Pizza Boy</h1>
     <b> Cost: ${pizzaOrder.price} </b>
 
-    <details bind:this={detailOpen}>
-      <!-- //fixme check if details has open attr and change text to cancel -->
+    <details>
+      <!-- //fixme find a better way to use details.open check ? -->
 
-      <summary>{detailOpen ? 'Cancel' : 'Confirm'}</summary>
+      <summary on:click={() => (detailOpen = !detailOpen)}>
+        {detailOpen ? 'Cancel' : 'Confirm'}
+      </summary>
 
       <details-menu>
         <div class="order-summary">
-          <b>{pizzaOrder.size} inch pizza with</b>
+          <h2>{pizzaOrder.size} inch pizza with</h2>
           <ul>
             <li>cheese</li>
 
@@ -212,6 +213,16 @@
       '. pizza .'
       '. toppings .'
       '. slider .';
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.2rem;
   }
 
   .order {
