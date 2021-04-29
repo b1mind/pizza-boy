@@ -3,8 +3,10 @@ Todo:
   ☐ style confirm order button
   ☐ style cancel topping better visual que
   ☐ style confirm button and window (make component?)
+  ☐ thank you msg after order button click
 
 Wishlist:
+  ☐ make specials [match(toppings price *0.30%)]
   ☐ finish making it a pwa
   ☐ better accessibilty
   ☐ clone toppings into the pizza with use
