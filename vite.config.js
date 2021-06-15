@@ -8,6 +8,7 @@ export default defineConfig({
   plugins: [
     VitePWA({
       manifest: {
+        //todo configure manifest and assets for it
         // content of manifest
       },
       workbox: {
